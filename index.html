@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cyber-Informed Engineering</title>
+<style>
+:root{--bg:#f6f8fa;--card:#fff;--tx:#14212b;--mut:#55656f;--bd:#d6dee4;--ac:#0b6bb0;--ac2:#e8f2fa;--ok:#1d7a46;--warn:#b25e00;--bad:#b3261e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1419;--card:#161e25;--tx:#e6edf2;--mut:#9aabb6;--bd:#2a3640;--ac:#5bb3f0;--ac2:#142636;--ok:#4cc17f;--warn:#f0a040;--bad:#ff7b72}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:960px;margin:0 auto;padding:0 18px}
+header{background:var(--ac2);border-bottom:1px solid var(--bd);padding:44px 0 34px}
+h1{font-size:clamp(1.7rem,4.5vw,2.6rem);line-height:1.15;margin:.2em 0 .4em}
+h2{font-size:1.5rem;margin:0 0 .3em}
+h3{font-size:1.05rem;margin:0 0 .3em}
+section{padding:36px 0 6px}
+.eyebrow{font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ac);font-weight:700}
+.lead{color:var(--mut);max-width:70ch}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:18px 0}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:14px}
+.stat b{display:block;font-size:1.6rem;color:var(--ac);line-height:1.1}
+.stat span{font-size:.85rem;color:var(--mut)}
+.cards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:14px 0}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px}
+.card p,.card li{font-size:.94rem}
+.card ul{padding-left:1.1em;margin:.3em 0}
+.sc{background:var(--card);border:1px solid var(--bd);border-radius:10px;margin:10px 0;padding:0 16px}
+.sc summary{cursor:pointer;padding:14px 0;font-weight:650}
+.sc[open] summary{border-bottom:1px solid var(--bd);margin-bottom:10px}
+.row{display:grid;gap:4px 14px;grid-template-columns:130px 1fr;padding:6px 0;font-size:.94rem}
+.row dt{color:var(--mut);font-weight:600}.row dd{margin:0}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;border-radius:99px;padding:1px 9px;border:1px solid currentColor;white-space:nowrap}
+.p1{color:var(--bad)}.p2{color:var(--warn)}.p3{color:var(--ok)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--card);border:1px solid var(--bd);font-size:.92rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--bd);vertical-align:top}
+th{background:var(--ac2);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+svg{width:100%;height:auto;display:block}
+svg .b{fill:var(--card);stroke:var(--ac);stroke-width:1.5}
+svg .o{fill:var(--bg);stroke:var(--mut);stroke-width:1.2;stroke-dasharray:5 3}
+svg .l{stroke:var(--ac);stroke-width:1.8;fill:none;marker-end:url(#a)}
+svg text{fill:var(--tx);font:12px system-ui,sans-serif}
+svg .s{fill:var(--mut);font-size:10.5px}
+.note{border-left:4px solid var(--warn);background:var(--card);padding:10px 14px;border-radius:0 8px 8px 0;font-size:.92rem;margin:16px 0}
+footer{margin-top:40px;border-top:1px solid var(--bd);padding:22px 0 30px;color:var(--mut);font-size:.85rem}
+.sim{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:14px 0}
+.sim label{display:flex;gap:8px;align-items:flex-start;font-size:.92rem;padding:4px 0;cursor:pointer}
+.sim input{margin-top:5px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.btns button{font:inherit;font-size:.88rem;border:1px solid var(--ac);background:var(--card);color:var(--ac);border-radius:99px;padding:6px 14px;cursor:pointer}
+.btns button:hover{background:var(--ac2)}
+.st{background:var(--card);border:1px solid var(--bd);border-left-width:5px;border-radius:8px;padding:10px 14px;margin:8px 0;font-size:.92rem}
+.st.bad{border-left-color:var(--bad)}.st.ok{border-left-color:var(--ok)}.st.mid{border-left-color:var(--warn)}
+.st small{display:block;color:var(--mut)}
+.meter{height:16px;background:var(--bd);border-radius:99px;overflow:hidden;margin:6px 0}
+.meter i{display:block;height:100%;width:0;background:var(--ok);transition:width .4s,background .4s}
+.verdict{font-size:1.1rem;font-weight:700}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 52px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i{transition:none}}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--card);border-bottom:1px solid var(--bd)}
+.nav .w{display:flex;gap:2px;overflow-x:auto}
+.nav a{white-space:nowrap;padding:12px 12px;color:var(--tx);text-decoration:none;font-size:.88rem;font-weight:600}
+.nav a:hover{color:var(--ac)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:30}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+</style>
+</head>
+<body>
+<nav class="nav" aria-label="Sections"><div class="w"><a href="#project">Project</a><a href="#control">Controls</a><a href="#cie">CIE</a><a href="#actions">Actions</a><a href="#sim">Simulation</a><a href="#phases">Four phases</a></div></nav>
+<header><div class="w">
+<h1>Cyber-Informed Engineering</h1>
+<p class="lead">A plain-language description of the new SP Clarifier® treatment train, followed by a Cyber-Informed Engineering (CIE) review: start from what must never happen to the water, then make sure the design itself, not only the network, prevents it.</p>
+<p class="lead" style="font-size:.9rem">Built from 14 project documents: P&amp;IDs, control philosophy, control logic and sequence chart (CLSC), process description, panel schematics and panel layout. This is a draft engineering discussion, not a certified security assessment.</p>
+<div class="cards">
+<div class="card"><h3>Biggest exposure</h3><p>Chemical dosing (by others) has no hardwired limit shown in the drawings. It is the easiest route to harmful water.</p></div>
+<div class="card"><h3>Best existing design</h3><p>Fail-open vent valves, one blowdown valve at a time, local-only compressors and a mechanical vacuum bleed valve.</p></div>
+<div class="card"><h3>What CIE changes</h3><p>Same attacker, already inside: network-only defense scores 51/100 (serious); the full CIE design scores 5/100. See the simulation.</p></div>
+</div>
+</div></header>
+
+<main class="w">
+
+<section id="project">
+<div class="eyebrow">1 · The project</div>
+<h2>What is being built</h2>
+<p>The City of Stilwell is adding a high-rate clarification stage to its surface-water plant. The equipment supplier provides two SuperPulsator® (SP) Clarifier trains that remove turbidity, color and organics before the water moves on to filtration. Pumping, chemical feed, the rapid-mix tank, the sludge sump and all interconnecting piping are by others.</p>
+<div class="grid">
+<div class="stat"><b>5.0 MGD</b><span>total capacity, 2 trains × 2.5 MGD (1,736 gpm each)</span></div>
+<div class="stat"><b>≤ 2.0 NTU</b><span>clarifier effluent turbidity, 95% of measurements</span></div>
+<div class="stat"><b>10</b><span>pneumatic valves: 2 vent + 8 blowdown</span></div>
+<div class="stat"><b>3</b><span>vacuum pumps (5 HP each): 1 per train + 1 shared spare</span></div>
+<div class="stat"><b>2</b><span>air compressors, 175 psig, 120 gal receiver</span></div>
+<div class="stat"><b>58′×20′×18′</b><span>concrete basin per train, 1.5 gpm/ft² loading</span></div>
+</div>
+
+<h3>Process flow</h3>
+<svg viewBox="0 0 760 330" role="img" aria-label="Process flow: influent to rapid mix to flow splitter to two SP Clarifiers to clarified water, with vacuum pumps, air compressors and PLC support">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor" style="color:var(--ac)"/></marker></defs>
+<rect class="b" x="10" y="130" width="70" height="40" rx="6"/><text x="45" y="154" text-anchor="middle">Influent</text>
+<rect class="o" x="85" y="22" width="140" height="48" rx="6"/><text x="155" y="42" text-anchor="middle">Alkalinity · coagulant</text><text x="155" y="58" text-anchor="middle">polymer (others)</text>
+<rect class="o" x="100" y="120" width="110" height="60" rx="6"/><text x="155" y="146" text-anchor="middle">Rapid mix tank</text><text x="155" y="163" text-anchor="middle" class="s">mixer + VFD (others)</text>
+<rect class="o" x="235" y="130" width="70" height="40" rx="6"/><text x="270" y="154" text-anchor="middle">Splitter</text>
+<rect class="b" x="330" y="50" width="190" height="80" rx="6"/><text x="425" y="76" text-anchor="middle">SP Clarifier 1</text><text x="425" y="94" text-anchor="middle" class="s">vacuum chamber · vent valve</text><text x="425" y="108" text-anchor="middle" class="s">settling plates · 4 blowdown valves</text>
+<rect class="b" x="330" y="170" width="190" height="80" rx="6"/><text x="425" y="196" text-anchor="middle">SP Clarifier 2</text><text x="425" y="214" text-anchor="middle" class="s">vacuum chamber · vent valve</text><text x="425" y="228" text-anchor="middle" class="s">settling plates · 4 blowdown valves</text>
+<rect class="o" x="600" y="130" width="140" height="40" rx="6"/><text x="670" y="154" text-anchor="middle">Clarified water</text>
+<path class="l" d="M80 150H100"/><path class="l" d="M155 70V120"/><path class="l" d="M210 150H235"/>
+<path class="l" d="M305 150H318V90H330"/><path class="l" d="M305 150H318V210H330"/>
+<path class="l" d="M520 90H560V150H600"/><path class="l" d="M520 210H560V150"/>
+<text x="540" y="122" class="s" text-anchor="middle">sludge to sump (others)</text>
+<rect class="b" x="90" y="272" width="150" height="40" rx="6"/><text x="165" y="289" text-anchor="middle">Vacuum pumps A · B · C</text><text x="165" y="303" text-anchor="middle" class="s">drive the pulsing</text>
+<rect class="b" x="255" y="272" width="140" height="40" rx="6"/><text x="325" y="289" text-anchor="middle">Air compressors ×2</text><text x="325" y="303" text-anchor="middle" class="s">valve actuation, local-only</text>
+<rect class="b" x="410" y="272" width="330" height="40" rx="6"/><text x="575" y="289" text-anchor="middle">Clarifier PLC + HMI ⇄ plant PLC (Ethernet)</text><text x="575" y="303" text-anchor="middle" class="s">feed flow, turbidity, pH in · valve and pump status out</text>
+</svg>
+<p class="lead" style="margin-top:12px">Dashed boxes are supplied by others. The key idea: a vacuum pump pulls water up into a chamber, a vent valve releases it, and the surge makes a deep sludge blanket gently pulse. Settling plates finish the separation, and four blowdown valves per train periodically draw excess sludge off by gravity, one valve at a time. There is no mechanical mixer under water.</p>
+</section>
+
+<section id="control">
+<div class="eyebrow">2 · Controls</div>
+<h2>How it is automated</h2>
+<div class="cards">
+<div class="card"><h3>Panel and PLC</h3><p>One UL 508A, NEMA 4X panel on 120 VAC with UPS. Allen-Bradley CompactLogix controller with distributed I/O, an Ethernet switch and a touchscreen HMI. Selector switches give local/remote/off on each vacuum pump and off/semi-auto/auto blowdown per train.</p></div>
+<div class="card"><h3>Train states</h3><p>OFF, STANDBY and PRODUCTION. In PRODUCTION the vent valve cycles (default 30 s closed, 20 s open) while the PLC waits for a blowdown trigger by time, by flow volume or by operator button. Blowdown runs a 9-step sequence, one valve open at a time.</p></div>
+<div class="card"><h3>Plant PLC link</h3><p>Nine signals in (feed flow, turbidity, pH, mixer status and a <em>permissive to blowdown</em>) and about thirty out (valve and pump feedback, callout). Both PLCs exchange a heartbeat; a stalled heartbeat for 5 s raises COMMUNICATION FAILURE.</p></div>
+<div class="card"><h3>Built-in safe states</h3><ul><li>Vent valves must fail open</li><li>Power loss: valves to fail position, motors stop, trains go to Faulted step</li><li>Mechanical System Stop pushbutton removes power to outputs</li><li>Alarms for forced I/O and program reloaded from flash</li></ul></div>
+</div>
+</section>
+
+<section id="cie">
+<div class="eyebrow">3 · Cyber-Informed Engineering</div>
+<h2>Start from consequences, not from the network</h2>
+<p class="lead">CIE (developed at Idaho National Laboratory and now part of U.S. national strategy) asks engineers to treat cyber risk like any other design hazard: identify the worst outcomes, then use physical, mechanical and process limits so that even a fully compromised controller cannot produce them. Network defenses still matter, but they become one layer rather than the whole plan.</p>
+<div class="cards">
+<div class="card"><h3>1 · Consequence prioritization</h3><p>List the events that would harm public health or the plant, and rank them by severity, not by how likely an intrusion seems.</p></div>
+<div class="card"><h3>2 · System-of-systems analysis</h3><p>Trace what each consequence needs: which PLC outputs, which signals from others, which utilities (air, power), which people.</p></div>
+<div class="card"><h3>3 · Consequence-based targeting</h3><p>Think like the attacker: find the shortest, least-defended path to each high-consequence event, using the dependencies you mapped.</p></div>
+<div class="card"><h3>4 · Mitigations and protections</h3><p>Break each path with engineering first (passive, hardwired, fail-safe), then add detection and recovery, and rehearse running the plant by hand.</p></div>
+</div>
+
+<h3 style="margin-top:22px">Consequence scenarios (tap to open)</h3>
+
+<details class="sc" open><summary>A · Coagulant, alkalinity or polymer dosed wrongly <span class="tag p1">Highest consequence</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Floc fails, turbidity breaks through toward filters and distribution, or pH swings out of range.</dd></div>
+<div class="row"><dt>Path</dt><dd>Chemical feed is by others, but the clarifier depends on it. Feed pH and turbidity (04-AIT-241/242) are monitored with alarms; nothing in the clarifier drawings stops a chemical pump.</dd></div>
+<div class="row"><dt>Design it out</dt><dd>Hardwired high/low pH and turbidity interlocks at the chemical feed skid, metering pumps with fixed maximum stroke or capacity, and tank or day-tank volumes sized so a worst-case overfeed cannot reach harmful dose.</dd></div>
+</dl></details>
+
+<details class="sc"><summary>B · Pulsing disrupted (vent valve or vacuum pumps) <span class="tag p2">High</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Sludge blanket loses uniformity, solids carry over into the clarified water.</dd></div>
+<div class="row"><dt>Path</dt><dd>Software can stop the pumps, hold the vent valve closed or change the open/closed timers (ranges 5–60 s and 15–60 s).</dd></div>
+<div class="row"><dt>Already good</dt><dd>Vent valve fails open, a vacuum breaker is on the P&amp;ID, vacuum level is set by a mechanical bleed valve at the pump suction, and a spare pump with manual valve alignment exists.</dd></div>
+<div class="row"><dt>Design it out</dt><dd>Lock or car-seal the bleed valve and manual pump valves; keep timer limits tight; add a hardwired high-vacuum limit; train operators on hand-mode pulsing.</dd></div>
+</dl></details>
+
+<details class="sc"><summary>C · Blowdown abused: too much, too little, or all at once <span class="tag p2">High</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Sludge sump overflow, wasted water, or blanket overgrowth and carry-over if blowdown is blocked.</dd></div>
+<div class="row"><dt>Already good</dt><dd>Only one valve open at a time and one clarifier at a time in logic; the concentrator design cannot withdraw blanket slurry; a plant-PLC permissive gates blowdown.</dd></div>
+<div class="row"><dt>Design it out</dt><dd>Enforce one-valve-at-a-time with hardwired relay interlocks, not only logic; hardwired sump high-level inhibit; size piping and orifices so full-open flow cannot exceed what the sump can take; make the permissive a hardwired contact.</dd></div>
+</dl></details>
+
+<details class="sc"><summary>D · Falsified or blocked plant-PLC data <span class="tag p2">High</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Fake feed flow starts or stops trains; fake pH or turbidity hides a real problem; a spoofed permissive triggers blowdown at the wrong time.</dd></div>
+<div class="row"><dt>Path</dt><dd>Ethernet link carries flow, quality and permissive signals. The heartbeat is a simple counter, and the philosophy suggests continuing to run on comms loss.</dd></div>
+<div class="row"><dt>Design it out</dt><dd>Plausibility and rate-of-change checks, hardwire the few signals that gate safety, use authenticated and allow-listed industrial protocols, and write down the deliberate comms-loss fail state for each function.</dd></div>
+</dl></details>
+
+<details class="sc"><summary>E · Loss of compressed air or power <span class="tag p3">Largely covered</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Valves cannot move; trains fault.</dd></div>
+<div class="row"><dt>Already good</dt><dd>Compressors run only locally (not network-reachable), receiver has a relief valve set at 200 psig, valves go to defined positions, UPS rides through short events.</dd></div>
+<div class="row"><dt>Suggestion</dt><dd>Publish one table of fail positions per valve (note 4 on the P&amp;IDs is ambiguous) and verify it in factory and site acceptance tests.</dd></div>
+</dl></details>
+
+<details class="sc"><summary>F · HMI and remote access misuse <span class="tag p1">High likelihood</span></summary>
+<dl>
+<div class="row"><dt>Consequence</dt><dd>Anyone with HMI access could change setpoints, modes or valve states.</dd></div>
+<div class="row"><dt>Path</dt><dd>The control philosophy documents default accounts for each role, notes there is no limit on password attempts, and encourages (but does not require) changing them.</dd></div>
+<div class="row"><dt>Design it out</dt><dd>Make unique credentials and attempt lockout a commissioning gate; separate operator, supervisor and engineer roles; put vendor and remote access behind a controlled gateway with multi-factor login and logging. Keep the default credentials out of any shared copy of the documents.</dd></div>
+</dl></details>
+</section>
+
+<section id="actions">
+<div class="eyebrow">4 · Recommendations</div>
+<h2>Prioritized suggestions</h2>
+<div class="scroll"><table>
+<thead><tr><th>Priority</th><th>Action</th><th>CIE principle</th></tr></thead>
+<tbody>
+<tr><td><span class="tag p1">P1</span></td><td>Hardwired pH/turbidity interlock and capped dosing at the chemical feed (interface with the party supplying it).</td><td>Consequence-focused design; engineered controls</td></tr>
+<tr><td><span class="tag p1">P1</span></td><td>Replace default HMI credentials at commissioning; enforce lockout; role separation; controlled remote access.</td><td>Resilient layered defense</td></tr>
+<tr><td><span class="tag p1">P1</span></td><td>Add a clarifier-effluent turbidity analyzer if not already in the wider plant design (none appears on the P&amp;IDs provided).</td><td>Independent verification of the outcome</td></tr>
+<tr><td><span class="tag p2">P2</span></td><td>Hardwire blowdown mutual exclusion, permissive and sump high-level inhibit.</td><td>Engineered controls</td></tr>
+<tr><td><span class="tag p2">P2</span></td><td>Authenticate and allow-list the plant-PLC link; add plausibility checks and a stronger heartbeat; define comms-loss fail states per function.</td><td>Secure information architecture</td></tr>
+<tr><td><span class="tag p2">P2</span></td><td>Lock or seal the vacuum bleed valve and manual pump valves; keep a manual pulsing procedure.</td><td>Planned resilience</td></tr>
+<tr><td><span class="tag p2">P2</span></td><td>OT network monitoring with alerts tied to the consequence list (for example, vent timer changed, mode changed, forced I/O).</td><td>Active defense</td></tr>
+<tr><td><span class="tag p3">P3</span></td><td>Offline, versioned backups of PLC and HMI programs; firmware and supply-chain records for the controller and I/O.</td><td>Digital asset awareness; supply chain</td></tr>
+<tr><td><span class="tag p3">P3</span></td><td>Yearly tabletop exercise: lose SCADA, run by hand, restore from backup. Include operators, not just IT.</td><td>Organizational culture</td></tr>
+<tr><td><span class="tag p3">P3</span></td><td>Treat drawings and this kind of review as sensitive engineering information: limit distribution.</td><td>Engineering information control</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:24px">Document gaps worth closing</h3>
+<div class="cards">
+<div class="card"><ul>
+<li>Design flow per unit appears as 1,736, 1,752 and 1,763 gpm in different documents.</li>
+<li>Start/stop flow, blowdown volume and feed turbidity range are still TBD in the CLSC.</li>
+<li>The process description says the system "will include the following" but lists nothing.</li>
+</ul></div>
+<div class="card"><ul>
+<li>Some text calls the units "UP Clarifier" and the spare pump a "spare blower".</li>
+<li>Air compressor tags use both 04- and 90- prefixes.</li>
+<li>P&amp;ID note 4 on the air skid repeats vacuum pump wording.</li>
+</ul></div>
+</div>
+<p class="note"><b>Engineering information control, applied to this page:</b> the source documents are marked proprietary and confidential. This site deliberately omits account names, passwords and network details, and it stays private until its owner chooses to share it. Review with the equipment supplier and the City before wider release.</p>
+</section>
+
+<section id="sim">
+<div class="eyebrow">5 · Attack simulation</div>
+<h2>Simulate an attack, then design it out</h2>
+<p class="lead">A conceptual tabletop of a five-stage attack on the clarifier train and its chemical feed. Toggle controls and watch the consequence change. It contains no exploit details; it shows why engineered limits matter when cyber defenses fail.</p>
+<div class="btns"><button data-p="net">Network-only defense</button><button data-p="cie">Full CIE design</button><button data-p="none">No controls</button></div>
+<div class="sim">
+<div class="card"><h3>Assumption</h3><label><input type="checkbox" id="br" checked> Assume the attacker gets in anyway (CIE planning assumption)</label>
+<h3 style="margin-top:10px">Cyber layers</h3>
+<label><input type="checkbox" id="c1"> Unique credentials, lockout, MFA remote-access gateway</label>
+<label><input type="checkbox" id="c4"> Authenticated plant link and plausibility checks</label>
+<label><input type="checkbox" id="c5"> OT network monitoring with alerts</label></div>
+<div class="card"><h3>Engineered limits (CIE)</h3>
+<label><input type="checkbox" id="e1"> Hardwired pH interlock and capped chemical dosing</label>
+<label><input type="checkbox" id="e2"> Locked bleed valve, vacuum breaker, tight timer limits</label>
+<label><input type="checkbox" id="e3"> Hardwired blowdown exclusion and sump high-level inhibit</label>
+<label><input type="checkbox" id="e4"> Independent effluent turbidity analyzer with hardwired alarm</label></div>
+</div>
+<div class="verdict" id="vd" aria-live="polite"></div>
+<p id="cp" class="lead" style="margin:4px 0;font-size:.9rem"></p>
+<div class="meter"><i id="mt"></i></div>
+<div id="tl"></div>
+<p class="note"><b>Lesson:</b> with network-only defense, one stolen login leads to a serious outcome. With the engineered limits, the same attacker can still change settings, but the water, the sump and the chemical dose stay inside safe bounds. That is consequence reduction by design.</p>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)};var last=0,busy=false;
+var ids=["br","c1","c4","c5","e1","e2","e3","e4"];
+var P={net:[1,1,1,1,0,0,0,0],cie:[1,1,1,1,1,1,1,1],none:[0,0,0,0,0,0,0,0]};
+function on(i){return $(i).checked}
+function run(){
+var br=on("br"),log=[],sc=0,m=on("c5")?0.6:1,stop=false;
+function add(t,a,cls,n,imp){log.push('<div class="st '+cls+'"><b>'+t+'</b> <small>Attacker goal: '+a+'</small>'+n+'</div>');sc+=imp}
+if(on("c1")&&!br){add("1 · Gain a foothold","reach the HMI with a reused or default login","ok","Blocked at the front door by unique credentials, lockout and MFA. Attack ends.",0);stop=true}
+else add("1 · Gain a foothold","reach the HMI with a reused or default login",on("c1")?"mid":"bad",on("c1")?"Perimeter assumed defeated (insider, stolen token, vendor path). Defense now depends on what is behind it.":"Access gained. No further barrier at the network layer.",0);
+if(!stop){
+var i2=on("e2")?3:25;add("2 · Disrupt pulsing","stop the vacuum pump or hold the vent valve closed",on("e2")?"ok":"bad",on("e2")?"Limited. Timer ranges are bounded, the vacuum breaker and locked bleed valve cap the vacuum, and the spare pump can be hand-started. Blanket stays stable.":"Sludge blanket loses uniform pulsing and solids begin to carry over.",Math.round(i2*m));
+var i3=on("e3")?2:20;add("3 · Abuse blowdown","open several blowdown valves or repeat sequences",on("e3")?"ok":"bad",on("e3")?"Limited. Relays allow one valve at a time and the sump high-level contact inhibits blowdown, whatever the PLC commands.":"Sump overflows or the blanket is drawn down.",Math.round(i3*m));
+var d4=on("c4")?[0,"ok","Spoofed values rejected by authentication and plausibility checks."]:on("e4")?[5,"mid","Operators may see false values, but the independent analyzer reports the true turbidity."]:[15,"bad","Operators see false normal readings while conditions worsen."];
+add("4 · Blind the operators","falsify feed flow, pH or turbidity over the plant link",d4[1],d4[2],Math.round(d4[0]*m));
+var i5=on("e1")?3:40;add("5 · Tamper with chemical dosing","overfeed coagulant or alkalinity (feed system by others)",on("e1")?"ok":"bad",on("e1")?"Limited. A hardwired pH interlock trips the feed pumps and the dose is capped by pump capacity and tank size.":"Large pH and coagulant excursion reaches the filters.",Math.round(i5*m));
+if(on("c5"))log.push('<div class="st mid"><b>Detection</b> OT monitoring raised alerts on setting and mode changes, so operators intervene sooner (impact scaled to 60%).</div>');
+if(on("e4")&&sc>40){sc=40;log.push('<div class="st mid"><b>Backstop</b> The analyzer trips an alarm and diversion before out-of-spec water leaves the plant (consequence capped).</div>')}
+}
+sc=Math.min(100,sc);last=sc;
+var v=sc<=10?["No meaningful consequence","var(--ok)"]:sc<30?["Minor, contained consequence","var(--ok)"]:sc<60?["Serious consequence","var(--warn)"]:["Major consequence: out-of-spec water likely","var(--bad)"];
+$("vd").textContent=v[0]+" (consequence score "+sc+"/100)";
+$("mt").style.width=Math.max(sc,2)+"%";$("mt").style.background=v[1];
+$("tl").innerHTML=log.join("");
+if(!busy)cmp();
+}
+function cmp(){busy=true;var cur=ids.map(function(i){return on(i)});var out=[];[["No controls",P.none],["Network-only",P.net],["Full CIE",P.cie]].forEach(function(x){x[1].forEach(function(v,k){$(ids[k]).checked=!!v});run();out.push(x[0]+": <b>"+last+"</b>")});cur.forEach(function(v,k){$(ids[k]).checked=v});run();busy=false;$("cp").innerHTML="Compare (attacker inside): "+out.join(" · ")}
+ids.forEach(function(i){$(i).addEventListener("change",run)});
+document.querySelectorAll("[data-p]").forEach(function(b){b.addEventListener("click",function(){P[b.dataset.p].forEach(function(v,k){$(ids[k]).checked=!!v});run()})});
+var p=P.net;p.forEach(function(v,k){$(ids[k]).checked=!!v});run();
+})();
+</script>
+</section>
+
+<section id="phases">
+<div class="eyebrow">6 · The four phases applied</div>
+<h2>Consequence-driven CIE, phase by phase</h2>
+<p class="lead">INL’s consequence-driven CIE method runs in four phases. Here each one is applied to the clarifier trains. The ratings and path counts are my engineering judgment from the drawings, for discussion with the design team.</p>
+
+<h3 style="margin-top:22px">Phase 1 · Consequence prioritization</h3>
+<p>Decide which events matter most. Criteria: public health, loss of service, environment, equipment damage.</p>
+<div class="scroll"><table><thead><tr><th>Rank</th><th>High-consequence event</th><th>Why it ranks here</th></tr></thead><tbody>
+<tr><td>1</td><td>Out-of-spec water (high turbidity, wrong pH or coagulant excess) leaves the clarifiers</td><td>Public-health risk; the clarifier is the first barrier for solids and organics</td></tr>
+<tr><td>2</td><td>Both trains lost at once (5.0 MGD)</td><td>Shared panel, shared spare pump, shared air and rapid-mix tank create common-cause failure</td></tr>
+<tr><td>3</td><td>Sludge sump overflow or uncontrolled discharge</td><td>Environmental and compliance impact; sump is by others</td></tr>
+<tr><td>4</td><td>Equipment damage (vacuum pump run dry, air receiver overpressure)</td><td>Costly and slow to repair, but limited public impact</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:22px">Phase 2 · System-of-systems analysis</h3>
+<p>Map everything event 1 depends on, including parts outside the clarifier scope.</p>
+<div class="scroll"><table><thead><tr><th>Dependency</th><th>Owner</th><th>Cyber-reachable?</th><th>Note</th></tr></thead><tbody>
+<tr><td>Clarifier PLC and HMI</td><td>Supplier</td><td>Yes (HMI, remote access)</td><td>Commands all valves and pumps; single panel</td></tr>
+<tr><td>Plant PLC link (9 signals in, ~30 out)</td><td>City / integrator</td><td>Yes</td><td>Carries flow, pH, turbidity and the blowdown permissive</td></tr>
+<tr><td>Chemical feed: alkalinity, coagulant, polymer</td><td>Others</td><td>Yes, through the plant system</td><td>Largest effect on water quality; no limit shown in the clarifier drawings</td></tr>
+<tr><td>Feed pH and turbidity analyzers</td><td>Others</td><td>Data path only</td><td>If falsified, operators lose sight of the problem</td></tr>
+<tr><td>Rapid-mix mixer and VFD</td><td>Others</td><td>Yes</td><td>Hardwired to plant PLC, also commanded over Ethernet</td></tr>
+<tr><td>Compressed air</td><td>Supplier</td><td>No (local-only start)</td><td>Needed to move all 10 valves</td></tr>
+<tr><td>Vacuum bleed valve and manual valves</td><td>Supplier / operators</td><td>No</td><td>Physical limit on pulsing; good anchor for engineered controls</td></tr>
+<tr><td>Power and UPS</td><td>Shared</td><td>Partly</td><td>Defines fail states</td></tr>
+<tr><td>Programs, firmware, backups, vendor access</td><td>Supplier / City</td><td>Yes</td><td>Recovery and supply-chain exposure</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:22px">Phase 3 · Consequence-based targeting</h3>
+<p>Rank the attacker’s easiest routes to event 1. Described at concept level only.</p>
+<div class="scroll"><table><thead><tr><th>Path</th><th>Steps</th><th>Existing barrier</th><th>Gap</th></tr></thead><tbody>
+<tr><td>A · Overfeed chemicals through the plant system</td><td>Fewest (about 2)</td><td>Analyzer alarms only</td><td><span class="tag p1">No hardwired limit</span></td></tr>
+<tr><td>B · Disrupt pulsing, then hide it with false readings</td><td>About 3</td><td>Fail-open vent valve, mechanical bleed valve, comms heartbeat</td><td><span class="tag p2">Timers and data trusted</span></td></tr>
+<tr><td>C · Block blowdown so the blanket overgrows</td><td>About 3</td><td>One-valve-at-a-time logic, blowdown OFF mode</td><td><span class="tag p2">Logic-only enforcement</span></td></tr>
+<tr><td>D · Common-cause: take out the single panel and shared spare</td><td>About 2 for event 2</td><td>Manual hand modes, mechanical System Stop</td><td><span class="tag p2">No second controller</span></td></tr>
+</tbody></table></div>
+<p>Path A is the cheapest for an attacker and the most damaging. That is why the chemical interlock is priority 1 in section 4.</p>
+
+<h3 style="margin-top:22px">Phase 4 · Mitigations and protections</h3>
+<p>Break each path with engineering first, then detect and recover.</p>
+<div class="scroll"><table><thead><tr><th>Path</th><th>Engineer out</th><th>Detect</th><th>Recover</th></tr></thead><tbody>
+<tr><td>A</td><td>Hardwired pH interlock; capped pump capacity and tank size</td><td>Independent effluent turbidity analyzer</td><td>Manual chemical shutdown, jar-test fallback dose</td></tr>
+<tr><td>B</td><td>Locked bleed valve, vacuum breaker, bounded timers</td><td>OT alerts on timer or mode changes; analyzer</td><td>Hand-start spare pump; manual pulsing procedure</td></tr>
+<tr><td>C</td><td>Relay mutual exclusion; sump high-level hardwired inhibit; sized piping</td><td>Alerts on repeated blowdown commands</td><td>Manual blowdown valves; sump pump-out plan</td></tr>
+<tr><td>D</td><td>Independent hardwired stop and manual-mode capability per train; segmented networks</td><td>Panel health and forced-I/O alarms (already present)</td><td>Offline program backups; spare controller; tabletop and restore drill</td></tr>
+</tbody></table></div>
+<p class="note"><b>Residual risk and ownership:</b> paths A and the data path in B sit partly outside the clarifier scope, so closing them needs the City, the integrator and the chemical-feed supplier at the table. Repeat all four phases whenever the design changes and again before factory and site acceptance testing.</p>
+</section>
+
+</main>
+<footer><div class="w">Prepared from project 512451 documents (P&amp;IDs DS-000 to DS-104, control philosophy PH-001, CLSC FD-001, process description FD-001, electrical schematics DI-001, panel drawings DC-001). CIE concepts follow Idaho National Laboratory guidance. Not a substitute for a formal security or safety assessment.</div></footer>
+</body>
+</html>
